@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import com.povedof.ratings.api.entity.MovieEntity;
 
@@ -16,9 +17,8 @@ public class MovieDAOImpl implements MovieDAO {
 	private SessionFactory sessionFactory; 
 	
 	@Override
-	public List<MovieEntity> getMovies() {
+	public List<MovieEntity> getMovies() throws DataAccessException {
 		
-		try{
 			//get the current hibernate session
 			Session currentSession = sessionFactory.getCurrentSession();
 			
@@ -33,28 +33,22 @@ public class MovieDAOImpl implements MovieDAO {
 			//return the results
 			
 			return movieEntities;
-		}
-		catch(Exception e){
-			return null;
-		}
+
 		
 	}
 
 	@Override
-	public MovieEntity getMovie(int mID) {
-		
-		try{
+	public MovieEntity getMovie(int mID) throws DataAccessException{
+
 			//get the current hibernate session
 			Session currentSession = sessionFactory.getCurrentSession();
 					
 			//retrieve/read from d.b. using primary key
 			MovieEntity movieEntity = currentSession.get(MovieEntity.class,mID);
 			
+			//System.out.println(movieEntity);
+			
 			return movieEntity;
-		}
-		catch(Exception e){
-			return null;
-		}
 		
 	}
 	
